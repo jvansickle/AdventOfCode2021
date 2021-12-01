@@ -2011,4 +2011,4 @@ for index in 1..<dataSet.count {
     }
 }
 
-increases
+print(increases)
