@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>import Foundation
+
+var reportEntries = parseData(data: realData)
+
+var answer = 0
+
+// Find the two numbers that sum to 2020
+for index in 0..&lt;reportEntries.count {
+    let currentReportEntry = reportEntries[index]
+    for nextIndex in index..&lt;reportEntries.count {
+        let nextReportEntry = reportEntries[nextIndex]
+        if currentReportEntry + nextReportEntry == 2020 {
+            answer = currentReportEntry * nextReportEntry
+        }
+        
+        // Break out early
+        if answer &gt; 0 {
+            break
+        }
+    }
+    
+    // Break out early 
+    if answer &gt; 0 {
+        break
+    }
+}
+
+print(answer)
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 624}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

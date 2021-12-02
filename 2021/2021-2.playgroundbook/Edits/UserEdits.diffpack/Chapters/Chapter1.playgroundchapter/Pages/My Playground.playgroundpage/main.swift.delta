@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>import UserModule
+
+var commands = parseRealData()
+
+var horizontalPosition = 0
+var depth = 0
+
+// Traverse each command entry
+for index in 0..&lt;commands.count {
+    // Parse the direction and distance
+    let split = commands[index].split(separator: " ")
+    let direction = split[0]
+    let distance = Int(split[1])!
+    
+    // Adjust depth or horizontal position based on direction
+    switch direction {
+    case "forward":
+        horizontalPosition += distance
+        break
+    case "up":
+        depth -= distance
+        break
+    case "down":
+        depth += distance
+        break
+    default:
+        fatalError("All cases should be handled")
+    }
+    
+    // Depth cannot logically be &lt; 0
+    if depth &lt; 0 {
+        depth = 0
+    }
+}
+
+print("Depth: \(depth)")
+print("Distance: \(horizontalPosition)")
+print("Answer: \(depth * horizontalPosition)")
+</string>
+			<key>ModifiedRange</key>
+			<string>{0, 860}</string>
+			<key>OriginalContent</key>
+			<string>
+</string>
+			<key>OriginalRange</key>
+			<string>{0, 1}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
