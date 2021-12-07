@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>let data = realData
+let crabPositions = parseData(dataSet: data)
+
+var cheapestPosition = Int.max
+var fuelCost = Int.max
+// Begin calculations of each possible position
+for position in 0..&lt;crabPositions.count {
+    // Calculate the cost of each crab position's fuel to the given position
+    var fuelSum = 0
+    for i in 0..&lt;crabPositions.count {
+        fuelSum += abs(position - crabPositions[i])
+    }
+    if fuelSum &lt; fuelCost {
+        fuelCost = fuelSum
+        cheapestPosition = position
+    }
+}
+
+print("Fuel Cost: \(fuelCost)")
+print("Position: \(cheapestPosition)")
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 575}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

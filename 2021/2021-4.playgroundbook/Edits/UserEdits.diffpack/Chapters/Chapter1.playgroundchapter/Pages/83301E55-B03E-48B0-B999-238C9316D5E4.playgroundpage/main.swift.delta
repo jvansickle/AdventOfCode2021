@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseFile</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/My Playground.playgroundpage/main.swift</string>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>let data = realData
+let callingNumbers = parseCallingNumbers(dataSet: data)
+let boards = parseBoards(dataSet: data)
+// A 3D array to keep track of marked positions. 0 is unmarked, 1 is marked
+var marks = [[[Int]]](repeating: [[Int]](repeating: [Int](repeating: 0, count: 5), count: 5), count: boards.count)
+var finalNumberCalled = -1
+var winningBoardIndexes = [Int]()
+
+// Play bingo
+for callingNumberIndex in 0..&lt;callingNumbers.count {
+    let currentNumber = callingNumbers[callingNumberIndex]
+    finalNumberCalled = currentNumber
+    
+    // Mark the number off of each board
+    for boardIndex in 0..&lt;boards.count {
+        // Make execution faster by ignoring boards that have won
+        if (winningBoardIndexes.contains(boardIndex)) {
+            continue
+        }
+        
+        let board = boards[boardIndex]
+        for rowIndex in 0..&lt;board.count {
+            let row = board[rowIndex]
+            for columnIndex in 0..&lt;row.count {
+                let positionValue = row[columnIndex]
+                if (positionValue == currentNumber) {
+                    marks[boardIndex][rowIndex][columnIndex] = 1
+                    
+                    // Check for win condition - all marks of the row or column that was marked
+                    
+                    // Check the row
+                    var columns = marks[boardIndex][rowIndex]
+                    if (columns.allSatisfy({ (positionMarked) -&gt; Bool in
+                        positionMarked == 1
+                    })){
+                        // Track that the board has won
+                        winningBoardIndexes.append(boardIndex)
+                        break
+                    }
+                    
+                    // Check the column
+                    var winningBoardIndex = boardIndex
+                    for i in 0..&lt;marks[boardIndex].count {
+                        // If there is a missing mark, clear the winning board
+                        if marks[boardIndex][i][columnIndex] == 0 {
+                            winningBoardIndex = -1
+                            break
+                        }
+                    } 
+                    if winningBoardIndex != -1 {
+                        winningBoardIndexes.append(boardIndex)
+                        break
+                    }
+                }
+            }
+            
+            if winningBoardIndexes.count == boards.count {
+                break
+            }
+        }
+        
+        if winningBoardIndexes.count == boards.count {
+            break
+        }
+    }
+    
+    if winningBoardIndexes.count == boards.count {
+        break
+    }
+}
+
+// Calculate winning board score by summing all UNMARKED numbers on the losing board multiplied by the winning number
+var sum = 0
+let losingBoard = boards[winningBoardIndexes.last!]
+for rowIndex in 0..&lt;losingBoard.count {
+    for colIndex in 0..&lt;losingBoard[rowIndex].count {
+        if marks[winningBoardIndexes.last!][rowIndex][colIndex] == 0 {
+            sum += losingBoard[rowIndex][colIndex]
+        }
+    }
+}
+
+print(sum * finalNumberCalled)
+</string>
+			<key>ModifiedRange</key>
+			<string>{0, 3065}</string>
+			<key>OriginalContent</key>
+			<string>
+</string>
+			<key>OriginalRange</key>
+			<string>{0, 1}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>let data = realData
+let callingNumbers = parseCallingNumbers(dataSet: data)
+let boards = parseBoards(dataSet: data)
+// A 3D array to keep track of marked positions. 0 is unmarked, 1 is marked
+var marks = [[[Int]]](repeating: [[Int]](repeating: [Int](repeating: 0, count: 5), count: 5), count: boards.count)
+var winningBoardIndex = -1
+var winningNumber = -1
+
+// Play bingo
+for callingNumberIndex in 0..&lt;callingNumbers.count {
+    let currentNumber = callingNumbers[callingNumberIndex]
+    winningNumber = currentNumber
+    
+    // Mark the number off of each board
+    for boardIndex in 0..&lt;boards.count {
+        let board = boards[boardIndex]
+        for rowIndex in 0..&lt;board.count {
+            let row = board[rowIndex]
+            for columnIndex in 0..&lt;row.count {
+                let positionValue = row[columnIndex]
+                if (positionValue == currentNumber) {
+                    marks[boardIndex][rowIndex][columnIndex] = 1
+                    
+                    // Check for win condition - all marks of the row or column that was marked
+                    
+                    // Check the row
+                    var columns = marks[boardIndex][rowIndex]
+                    if (columns.allSatisfy({ (positionMarked) -&gt; Bool in
+                        positionMarked == 1
+                    })){
+                        // Set the winning board!
+                        winningBoardIndex = boardIndex
+                        break
+                    }
+                    
+                    // Check the column
+                    winningBoardIndex = boardIndex
+                    for i in 0..&lt;marks[boardIndex].count {
+                        // If there is a missing mark, clear the winning board
+                        if marks[boardIndex][i][columnIndex] == 0 {
+                            winningBoardIndex = -1
+                            break
+                        }
+                    } 
+                    if winningBoardIndex != -1 {
+                        break
+                    }
+                }
+            }
+            
+            if winningBoardIndex != -1 {
+                break
+            }
+        }
+        
+        if winningBoardIndex != -1 {
+            break
+        }
+    }
+    
+    if winningBoardIndex != -1 {
+        break
+    }
+}
+
+// Calculate winning board score by summing all UNMARKED numbers on the board multiplied by the winning number
+var sum = 0
+let winningBoard = boards[winningBoardIndex]
+for rowIndex in 0..&lt;winningBoard.count {
+    for colIndex in 0..&lt;winningBoard[rowIndex].count {
+        if marks[winningBoardIndex][rowIndex][colIndex] == 0 {
+            sum += winningBoard[rowIndex][colIndex]
+        }
+    }
+}
+print(sum * winningNumber)
+</string>
+			<key>ModifiedRange</key>
+			<string>{0, 2729}</string>
+			<key>OriginalContent</key>
+			<string>
+</string>
+			<key>OriginalRange</key>
+			<string>{0, 1}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

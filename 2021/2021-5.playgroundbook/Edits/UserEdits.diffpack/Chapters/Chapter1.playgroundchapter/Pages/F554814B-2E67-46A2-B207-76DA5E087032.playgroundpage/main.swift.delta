@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseFile</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/My Playground.playgroundpage/main.swift</string>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>var data = realData
+var pointSets = parseData(dataSet: data)
+var lineDictionary: [String: Int] = [:]
+
+// Determine grid position coverages for horizontal and vertical lines
+pointSets.forEach { (pointSet) in
+    // Populate vertical line coverage
+    if pointSet.0.x == pointSet.1.x {
+        let yPoints = [pointSet.0.y, pointSet.1.y]
+        for y in yPoints.min()!...yPoints.max()! {
+            if let value = lineDictionary["\(pointSet.0.x),\(y)"] {
+                lineDictionary["\(pointSet.0.x),\(y)"] = value + 1
+            } else {
+                lineDictionary["\(pointSet.0.x),\(y)"] = 1
+            }
+        }
+    }
+    
+    // Populate horizontal line coverage
+    if pointSet.0.y == pointSet.1.y {
+        let xPoints = [pointSet.0.x, pointSet.1.x]
+        for x in xPoints.min()!...xPoints.max()! {
+            if let value = lineDictionary["\(x),\(pointSet.0.y)"] {
+                lineDictionary["\(x),\(pointSet.0.y)"] = value + 1
+            } else {
+                lineDictionary["\(x),\(pointSet.0.y)"] = 1
+            }
+        }
+    }
+    
+    // Populate diagonal lines
+    if abs(pointSet.1.x - pointSet.0.x) == abs(pointSet.1.y - pointSet.0.y) {
+        // Diagonals are always "square" so we can determine how long it spans
+        let span = abs(pointSet.0.x - pointSet.1.x)
+        
+        // Draw increasing x and y
+        if pointSet.0.x &lt; pointSet.1.x &amp;&amp; pointSet.0.y &lt; pointSet.1.y {
+            for i in 0...span {
+                let key = "\(pointSet.0.x + i),\(pointSet.0.y + i)"
+                if let value = lineDictionary[key] {
+                    lineDictionary[key] = value + 1
+                } else {
+                    lineDictionary[key] = 1
+                }
+            }
+        }
+        
+        // Draw decreasing x and y
+        if pointSet.0.x &gt; pointSet.1.x &amp;&amp; pointSet.0.y &gt; pointSet.1.y {
+            for i in 0...span {
+                let key = "\(pointSet.0.x - i),\(pointSet.0.y - i)"
+                if let value = lineDictionary[key] {
+                    lineDictionary[key] = value + 1
+                } else {
+                    lineDictionary[key] = 1
+                }
+            }
+        }
+        
+        // Draw increasing x and decreasing y
+        if pointSet.0.x &lt; pointSet.1.x &amp;&amp; pointSet.0.y &gt; pointSet.1.y {
+            for i in 0...span {
+                let key = "\(pointSet.0.x + i),\(pointSet.0.y - i)"
+                if let value = lineDictionary[key] {
+                    lineDictionary[key] = value + 1
+                } else {
+                    lineDictionary[key] = 1
+                }
+            }
+        }
+        
+        // Draw decreasing x and increasing y
+        if pointSet.0.x &gt; pointSet.1.x &amp;&amp; pointSet.0.y &lt; pointSet.1.y {
+            for i in 0...span {
+                let key = "\(pointSet.0.x - i),\(pointSet.0.y + i)"
+                if let value = lineDictionary[key] {
+                    lineDictionary[key] = value + 1
+                } else {
+                    lineDictionary[key] = 1
+                }
+            }
+        }
+    }
+}
+
+// Print out grid for comparison
+//  var grid = [[Int]](repeating: [Int](repeating: 0, count: 10), count: 10)
+//  lineDictionary.forEach { (entry) in
+//      var pair = entry.key.components(separatedBy: ",").map { (s) -&gt; Int in
+//          Int(s)!
+//      }
+//      grid[pair[1]][pair[0]] = entry.value
+//  }
+//  grid.forEach { (row) in
+//      print(row)
+//  }
+
+let overlappingLinePointCount = lineDictionary.values.filter { (v) -&gt; Bool in
+    v &gt; 1
+}.count
+
+print(overlappingLinePointCount)
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 3559}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

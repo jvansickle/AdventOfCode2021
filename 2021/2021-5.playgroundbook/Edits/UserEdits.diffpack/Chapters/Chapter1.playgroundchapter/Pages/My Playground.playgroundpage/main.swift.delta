@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>var data = exampleData
+var pointSets = parseData(dataSet: data)
+var lineDictionary: [String: Int] = [:]
+
+// Determine grid position coverages for horizontal and vertical lines
+pointSets.forEach { (pointSet) in
+    // Populate vertical line coverage
+    if pointSet.0.x == pointSet.1.x {
+        let yPoints = [pointSet.0.y, pointSet.1.y]
+        for y in yPoints.min()!...yPoints.max()! {
+            if let value = lineDictionary["\(pointSet.0.x),\(y)"] {
+                lineDictionary["\(pointSet.0.x),\(y)"] = value + 1
+            } else {
+                lineDictionary["\(pointSet.0.x),\(y)"] = 1
+            }
+        }
+    }
+    
+    // Populate horizontal line coverage
+    if pointSet.0.y == pointSet.1.y {
+        let xPoints = [pointSet.0.x, pointSet.1.x]
+        for x in xPoints.min()!...xPoints.max()! {
+            if let value = lineDictionary["\(x),\(pointSet.0.y)"] {
+                lineDictionary["\(x),\(pointSet.0.y)"] = value + 1
+            } else {
+                lineDictionary["\(x),\(pointSet.0.y)"] = 1
+            }
+        }
+    }
+}
+
+let overlappingLinePointCount = lineDictionary.values.filter { (v) -&gt; Bool in
+    v &gt; 1
+}.count
+
+print(overlappingLinePointCount)
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 1198}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

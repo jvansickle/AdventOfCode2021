@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diff</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>// Part 1 and 2 are only different in number of ageIterations, same solution solves each
+
+let data = realData
+var ageDictionary = parseData(dataSet: data)
+let ageIterations = 256
+
+for day in 0..&lt;ageIterations {
+    // Track which 0 age fish will become age 6
+    var ageZeroFishCount = 0
+    // Need to decrement the age number for each group of fish
+    for age in 0...8 {
+        if let fishCount = ageDictionary[age] {
+            if age == 0 {
+                ageZeroFishCount = fishCount
+            } else {
+                ageDictionary[age-1] = fishCount
+            }
+        } else if age &gt; 0 {
+            ageDictionary[age-1] = 0
+        }
+    }
+    
+    // Now set the age-zero fish back to 6 and spawn that many new age 8 fish
+    ageDictionary[6] = (ageDictionary[6] ?? 0) + ageZeroFishCount
+    ageDictionary[8] = ageZeroFishCount
+}
+
+var totalFishCount = 0
+ageDictionary.values.forEach { (count) in
+    totalFishCount += count
+}
+
+print(totalFishCount)
+</string>
+			<key>ModifiedRange</key>
+			<string>{0, 968}</string>
+			<key>OriginalContent</key>
+			<string>
+</string>
+			<key>OriginalRange</key>
+			<string>{0, 1}</string>
+		</dict>
+	</array>
+	<key>File</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/My Playground.playgroundpage/main.swift</string>
+</dict>
+</plist>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>import Foundation
+
+var binary = parseData(data: realData)
+var rowLength = realDataRowLength
+var gammaRate: Int
+var epsilonRate: Int
+
+// Note that the bits are dynamic sized in data sets (example vs real)
+// The gamma rate for each of the five positions is the most occurring of either zero (0) or one (1)
+// The epsilon rate for each of the five positions is the least occurring of either zero (0) or one (1)
+
+// Set up a counting methodology to be able to determine whether a one or zero is most prevelant.
+// There are five positions, so five vars will be needed
+// We will track the position's gamma rate only, as epsilon is just the opposite outcome
+// If a variable ends positive, it's a 1 gamma, if it ends negative it's a 0 gamma
+var positionGammas = Array(repeating: 0, count: rowLength)
+
+// Let's try to be clever and determine everything in one iteration over the items
+var position = 0
+for i in stride(from: 0, to: binary.count, by: rowLength) {
+    for j in i..&lt;i+rowLength {
+        // We need a way to track what position of five we are at
+        if j % rowLength == 0 {
+            position = 0
+        } else {
+            position += 1
+        }
+        
+        // Record the position gamma for the current binary position
+        if binary[j] == 1 {
+            positionGammas[position] += 1
+        } else {
+            positionGammas[position] -= 1
+        }
+    }
+}
+
+gammaRate = Int(positionGammas.map({ (gamma) -&gt; String in
+    return gamma &gt; 0 ? "1" : "0"
+}).joined(), radix: 2)!
+
+epsilonRate = Int(positionGammas.map({ (gamma) -&gt; String in
+    return gamma &lt; 0 ? "1" : "0"
+}).joined(), radix: 2)!
+
+print (gammaRate * epsilonRate)
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 1656}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseFile</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/Template.playgroundpage/main.swift</string>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>import Foundation
+
+var oxygenGeneratorRating = 0
+var co2ScrubberRating = 0
+
+// Note that the bits are dynamic sized in data sets (example vs real)
+var binaryGroups = parseAsStringRows(data: realData)
+
+// Will need to iterate over the length of the groups (uniform length)
+let groupContentLength = binaryGroups[0].count
+
+// Function to filter down groups based on the binary position of given groups
+func filterBinaryGroups(binaryPosition: Int, groups: [String], useMostCommonNumber: Bool) -&gt; [String] {
+    // Determine the most common number (0 or 1) for the position from each group
+    var zeroesCount = 0
+    var onesCount = 0
+    for j in 0..&lt;groups.count {
+        if groups[j][groups[j].index(groups[j].startIndex, offsetBy: binaryPosition)] == "0" {
+            zeroesCount += 1
+        } else {
+            onesCount += 1
+        }
+    }
+    
+    // Determine the most or least common number
+    var filteringNumber: String
+    if useMostCommonNumber {
+        // If counts are even, then 1 is used as most common
+        filteringNumber = zeroesCount &gt; onesCount ? "0" : "1"
+    } else {
+        // If counts are even, then 0 is used as least common
+        filteringNumber = zeroesCount &gt; onesCount ? "1" : "0"
+    }
+    
+    // Reduce collection to only numbers that start with the most common number
+    let filtered = groups.filter { (binaryGroup) -&gt; Bool in
+        let char = binaryGroup[binaryGroup.index(binaryGroup.startIndex, offsetBy: binaryPosition)]
+        
+        return String(char) == filteringNumber
+    }
+    
+    return filtered
+}
+
+// Determine the oxygen generator rating value
+var filteredGroups = binaryGroups
+for i in 0..&lt;groupContentLength {
+    if filteredGroups.count &gt; 1 {
+        filteredGroups = filterBinaryGroups(binaryPosition: i, groups: filteredGroups, useMostCommonNumber: true)
+    }
+    
+    // If the filtering got us to one element, the search is over and value is ready
+    if filteredGroups.count == 1 {
+        oxygenGeneratorRating = Int(filteredGroups[0], radix: 2)!
+        break
+    }
+}
+
+// Reset the filteredGroups and run again for co2 scrubber rating
+filteredGroups = binaryGroups
+for i in 0..&lt;groupContentLength {
+    if (filteredGroups.count &gt; 1) {
+        filteredGroups = filterBinaryGroups(binaryPosition: i, groups: filteredGroups, useMostCommonNumber: false)
+    }
+    
+    // If the filtering got us to one element, the search is over and value is ready
+    if filteredGroups.count == 1 {
+        co2ScrubberRating = Int(filteredGroups[0], radix: 2)!
+        break
+    }
+}
+
+let answer = oxygenGeneratorRating * co2ScrubberRating
+print(answer)
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 2612}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
